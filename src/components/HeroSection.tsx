@@ -26,7 +26,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenCheckout, onScro
         </div>
 
         {/* Hero Call to Action Box */}
-        <div className="max-w-xl mx-auto text-center mb-12">
+        <div className="max-w-xl mx-auto text-center">
           <button
             onClick={onScrollToOffer}
             className="w-full bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-base sm:text-lg tracking-wide py-4 sm:py-5 px-8 rounded-2xl shadow-xl shadow-[#28A745]/20 hover:shadow-2xl hover:shadow-[#28A745]/30 transition-all duration-200 flex items-center justify-center gap-3 group cursor-pointer border border-emerald-500/30 active:scale-95"
@@ -42,26 +42,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenCheckout, onScro
             <span className="flex items-center gap-1 text-[#2D2D2D]">
               <ShieldCheck className="w-3.5 h-3.5 text-[#28A745]" /> Garantia 7 Dias
             </span>
-          </div>
-        </div>
-
-        {/* Reassurance Trust Badges */}
-        <div className="pt-6 border-t border-slate-200/80 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-            <span className="block text-xl sm:text-2xl font-black text-[#2D2D2D]">+100 Receitas</span>
-            <span className="text-xs font-semibold text-slate-500">Tradicionais do Douro</span>
-          </div>
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-            <span className="block text-xl sm:text-2xl font-black text-[#28A745]">MB Way Directo</span>
-            <span className="text-xs font-semibold text-slate-500">Encomendas na Freguesia</span>
-          </div>
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-            <span className="block text-xl sm:text-2xl font-black text-[#2D2D2D]">Garantia 100%</span>
-            <span className="text-xs font-semibold text-slate-500">Risco Zero durante 7 Dias</span>
-          </div>
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-            <span className="block text-xl sm:text-2xl font-black text-[#C25E00]">Acesso Vitalício</span>
-            <span className="text-xs font-semibold text-slate-500">Consulta no Telemóvel</span>
           </div>
         </div>
 

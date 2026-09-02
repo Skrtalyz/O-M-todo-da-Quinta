@@ -28,13 +28,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCheckout }) => {
 
   return (
     <>
-      {/* Announcement Bar */}
-      <div className="bg-slate-900 text-slate-200 text-xs font-semibold py-2 px-4 text-center flex items-center justify-center gap-2 border-b border-slate-800">
-        <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>Apenas 14 vagas disponíveis hoje com Acesso Vitalício + MB Way</span>
-        <span className="hidden sm:inline text-amber-400 font-bold">• Entrega Imediata por Email</span>
-      </div>
-
       {/* Main Navbar */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
@@ -64,12 +57,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCheckout }) => {
 
           {/* Desktop Nav Links */}
           <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-600">
-            <button
-              onClick={() => scrollToSection('metodo')}
-              className="hover:text-[#2D2D2D] transition-colors cursor-pointer"
-            >
-              O Método
-            </button>
             <button
               onClick={() => scrollToSection('entrega')}
               className="hover:text-[#2D2D2D] transition-colors cursor-pointer"
@@ -109,12 +96,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCheckout }) => {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-[#F9F8F5] border-b border-slate-200 px-4 pt-3 pb-6 space-y-2">
-            <button
-              onClick={() => scrollToSection('metodo')}
-              className="block w-full text-left py-2 font-bold text-sm text-[#2D2D2D] border-b border-slate-100"
-            >
-              O Método
-            </button>
             <button
               onClick={() => scrollToSection('entrega')}
               className="block w-full text-left py-2 font-bold text-sm text-[#2D2D2D] border-b border-slate-100"
