@@ -1,12 +1,13 @@
 import React from 'react';
 import { ShoppingBag, ArrowRight, ShieldCheck, Smartphone, Sparkles } from 'lucide-react';
-import { HOTMART_CHECKOUT_URLS } from '../constants/checkout';
+import { useCheckoutUrls } from '../utils/checkout';
 
 interface FinalCTASectionProps {
   onOpenCheckout: (planId?: 'basic' | 'complete') => void;
 }
 
 export const FinalCTASection: React.FC<FinalCTASectionProps> = ({ onOpenCheckout }) => {
+  const checkoutUrls = useCheckoutUrls();
   return (
     <section className="py-16 sm:py-20 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -27,7 +28,11 @@ export const FinalCTASection: React.FC<FinalCTASectionProps> = ({ onOpenCheckout
         {/* Primary CTA Button */}
         <div className="space-y-4 max-w-2xl mx-auto">
           <a
-            href={HOTMART_CHECKOUT_URLS.complete}
+            href={checkoutUrls.complete}
+            onClick={(e) => {
+              e.preventDefault();
+              onOpenCheckout('complete');
+            }}
             className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm sm:text-lg uppercase tracking-wider py-5 px-8 rounded-2xl shadow-2xl hover:shadow-emerald-900/50 transition-all duration-300 flex items-center justify-center gap-3 group cursor-pointer text-center"
           >
             <ShoppingBag className="w-6 h-6" />

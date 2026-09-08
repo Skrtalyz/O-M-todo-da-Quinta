@@ -1,13 +1,14 @@
 import React from 'react';
 import { IMAGES } from '../assets/images';
 import { Shield } from 'lucide-react';
-import { HOTMART_CHECKOUT_URLS } from '../constants/checkout';
+import { useCheckoutUrls } from '../utils/checkout';
 
 interface GuaranteeSectionProps {
   onOpenCheckout: (planId?: 'basic' | 'complete') => void;
 }
 
 export const GuaranteeSection: React.FC<GuaranteeSectionProps> = ({ onOpenCheckout }) => {
+  const checkoutUrls = useCheckoutUrls();
   return (
     <section className="py-16 sm:py-20 bg-[#F9F8F5] relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,7 +50,11 @@ export const GuaranteeSection: React.FC<GuaranteeSectionProps> = ({ onOpenChecko
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <a
-                  href={HOTMART_CHECKOUT_URLS.complete}
+                  href={checkoutUrls.complete}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onOpenCheckout('complete');
+                  }}
                   className="bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-xs sm:text-sm uppercase tracking-wider py-3.5 px-6 rounded-xl shadow cursor-pointer transition-colors inline-block text-center"
                 >
                   Experimentar sem Risco (€14,90)

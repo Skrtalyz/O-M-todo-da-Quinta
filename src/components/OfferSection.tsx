@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Check, ShieldCheck, Sparkles, ShoppingBag, Smartphone, ArrowRight } from 'lucide-react';
-import { HOTMART_CHECKOUT_URLS } from '../constants/checkout';
+import { useCheckoutUrls } from '../utils/checkout';
 
 interface OfferSectionProps {
   onOpenCheckout: (planId: 'basic' | 'complete') => void;
 }
 
 export const OfferSection: React.FC<OfferSectionProps> = ({ onOpenCheckout }) => {
+  const checkoutUrls = useCheckoutUrls();
   return (
     <section id="oferta" className="py-16 sm:py-20 bg-[#F3F0E6] border-t border-amber-900/10 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -73,7 +74,11 @@ export const OfferSection: React.FC<OfferSectionProps> = ({ onOpenCheckout }) =>
             {/* CTA Button Básico */}
             <div>
               <a
-                href={HOTMART_CHECKOUT_URLS.basic}
+                href={checkoutUrls.basic}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onOpenCheckout('basic');
+                }}
                 className="w-full bg-[#2D2D2D] hover:bg-black text-white font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-2xl transition-colors shadow flex items-center justify-center gap-2 cursor-pointer text-center"
               >
                 <span>Escolher Plano Básico (€7,90)</span>
@@ -149,7 +154,11 @@ export const OfferSection: React.FC<OfferSectionProps> = ({ onOpenCheckout }) =>
             {/* CTA Button Completo */}
             <div>
               <a
-                href={HOTMART_CHECKOUT_URLS.complete}
+                href={checkoutUrls.complete}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onOpenCheckout('complete');
+                }}
                 className="w-full bg-[#28A745] hover:bg-[#1f8035] text-white font-black text-sm sm:text-base uppercase tracking-wider py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 group cursor-pointer text-center"
               >
                 <ShoppingBag className="w-5 h-5" />

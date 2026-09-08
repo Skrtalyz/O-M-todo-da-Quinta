@@ -8,13 +8,14 @@ import { GuaranteeSection } from './components/GuaranteeSection';
 import { FinalCTASection } from './components/FinalCTASection';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
-import { HOTMART_CHECKOUT_URLS } from './constants/checkout';
+import { redirectToCheckout, useCheckoutUrls } from './utils/checkout';
 
 export default function App() {
+  useCheckoutUrls();
+
   const handleOpenCheckout = (planId?: any) => {
     const validPlan: 'basic' | 'complete' = (planId === 'basic' || planId === 'complete') ? planId : 'complete';
-    const checkoutUrl = HOTMART_CHECKOUT_URLS[validPlan];
-    window.location.href = checkoutUrl;
+    redirectToCheckout(validPlan);
   };
 
   const handleScrollToOffer = () => {

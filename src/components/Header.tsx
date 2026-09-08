@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Menu, X } from 'lucide-react';
-import { HOTMART_CHECKOUT_URLS } from '../constants/checkout';
+import { useCheckoutUrls } from '../utils/checkout';
 
 interface HeaderProps {
   onOpenCheckout: (planId?: 'basic' | 'complete') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenCheckout }) => {
+  const checkoutUrls = useCheckoutUrls();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -122,8 +123,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCheckout }) => {
             </button>
             <div className="pt-2">
               <a
-                href={HOTMART_CHECKOUT_URLS.complete}
-                onClick={() => setMobileMenuOpen(false)}
+                href={checkoutUrls.complete}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  onOpenCheckout('complete');
+                }}
                 className="w-full bg-[#28A745] hover:bg-[#1f8035] text-white font-black text-sm uppercase tracking-wider py-3 rounded-xl shadow text-center flex items-center justify-center gap-2"
               >
                 <ShoppingBag className="w-4 h-4" />
