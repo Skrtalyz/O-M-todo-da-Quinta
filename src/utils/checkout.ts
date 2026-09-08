@@ -55,12 +55,23 @@ export function getStoredTrackingParams(): Record<string, string> {
 
   try {
     const sessionData = sessionStorage.getItem(STORAGE_KEY);
-    if (sessionData) {
-      return JSON.parse(sessionData);
+    if (sessionData && sessionData !== 'undefined' && sessionData !== 'null' && sessionData.trim() !== '') {
+      const parsed = JSON.parse(sessionData);
+      if (parsed && typeof parsed === 'object') {
+        return parsed;
+      }
     }
+  } catch {
+    // Ignore storage parsing errors
+  }
+
+  try {
     const localData = localStorage.getItem(STORAGE_KEY);
-    if (localData) {
-      return JSON.parse(localData);
+    if (localData && localData !== 'undefined' && localData !== 'null' && localData.trim() !== '') {
+      const parsed = JSON.parse(localData);
+      if (parsed && typeof parsed === 'object') {
+        return parsed;
+      }
     }
   } catch {
     // Ignore storage parsing errors
@@ -79,9 +90,19 @@ export function persistTrackingParams(newParams: Record<string, string>): void {
     const existing = getStoredTrackingParams();
     const merged = { ...existing, ...newParams };
 
-    if (Object.keys(merged).length > 0) {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+    const validParams: Record<string, string> = {};
+    for (const [k, v] of Object.entries(merged)) {
+      if (k && v && v !== 'undefined' && v !== 'null') {
+        validParams[k] = v;
+      }
+    }
+
+    if (Object.keys(validParams).length > 0) {
+      const serialized = JSON.stringify(validParams);
+      if (serialized && serialized !== 'undefined') {
+        sessionStorage.setItem(STORAGE_KEY, serialized);
+        localStorage.setItem(STORAGE_KEY, serialized);
+      }
     }
   } catch {
     // Storage access blocked or full - silently ignore

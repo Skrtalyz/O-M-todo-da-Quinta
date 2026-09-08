@@ -6,6 +6,65 @@
     <title>O Método da Quinta - Conservas de Elite</title>
     <script>
       (function() {
+        // 1. Safe JSON.parse protection (prevents "undefined is not valid JSON" crashes from any third-party or tracking scripts)
+        var nativeParse = JSON.parse;
+        JSON.parse = function(text, reviver) {
+          if (text === undefined || text === null || text === 'undefined' || text === 'null') {
+            return null;
+          }
+          if (typeof text === 'string') {
+            var trimmed = text.trim();
+            if (trimmed === 'undefined' || trimmed === 'null' || trimmed === '') {
+              return null;
+            }
+          }
+          try {
+            return nativeParse.call(JSON, text, reviver);
+          } catch (err) {
+            if (typeof text === 'string' && (text.indexOf('undefined') !== -1 || text.trim() === '')) {
+              return null;
+            }
+            throw err;
+          }
+        };
+
+        // 2. Storage sanitization and safe wrappers
+        try {
+          var cleanStorage = function(storage) {
+            if (!storage) return;
+            for (var i = storage.length - 1; i >= 0; i--) {
+              var key = storage.key(i);
+              if (key) {
+                var val = storage.getItem(key);
+                if (val === 'undefined' || val === 'null') {
+                  storage.removeItem(key);
+                }
+              }
+            }
+          };
+          cleanStorage(window.localStorage);
+          cleanStorage(window.sessionStorage);
+
+          var nativeGetItem = Storage.prototype.getItem;
+          Storage.prototype.getItem = function(key) {
+            var val = nativeGetItem.call(this, key);
+            if (val === 'undefined' || val === 'null') {
+              return null;
+            }
+            return val;
+          };
+
+          var nativeSetItem = Storage.prototype.setItem;
+          Storage.prototype.setItem = function(key, val) {
+            if (val === undefined || val === 'undefined') {
+              this.removeItem(key);
+              return;
+            }
+            return nativeSetItem.call(this, key, val);
+          };
+        } catch (e) {}
+
+        // 3. Safe JSON.stringify override
         var nativeStringify = JSON.stringify;
         JSON.stringify = function(value, replacer, space) {
           var seen = new WeakSet();
