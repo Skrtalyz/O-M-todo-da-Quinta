@@ -165,7 +165,7 @@ export const DeliverablesSection: React.FC<DeliverablesSectionProps> = ({ onOpen
             <div className="lg:col-span-5">
               <div className="relative rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-xl">
                 <img
-                  src="https://i.postimg.cc/Gm1CrD87/f165db80-dea5-431a-bd87-972467a00594.png"
+                  src="https://i.imgur.com/0auzgLX.png"
                   alt="Expert Dona Maria do Carmo - Quinta do Douro"
                   referrerPolicy="no-referrer"
                   className="w-full h-80 object-cover"
