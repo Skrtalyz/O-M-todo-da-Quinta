@@ -9,7 +9,7 @@ interface BonusesSectionProps {
 
 export const BonusesSection: React.FC<BonusesSectionProps> = ({ onOpenCheckout, onScrollToOffer }) => {
   return (
-    <section id="bonuses" className="py-16 sm:py-20 bg-[#F9F8F5] relative">
+    <section id="bonuses" className="esconder-delay py-16 sm:py-20 bg-[#F9F8F5] relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

@@ -9,7 +9,7 @@ interface OfferSectionProps {
 export const OfferSection: React.FC<OfferSectionProps> = ({ onOpenCheckout }) => {
   const checkoutUrls = useCheckoutUrls();
   return (
-    <section id="oferta" className="py-16 sm:py-20 bg-[#F3F0E6] border-t border-amber-900/10 relative">
+    <section id="oferta" className="esconder-delay py-16 sm:py-20 bg-[#F3F0E6] border-t border-amber-900/10 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}

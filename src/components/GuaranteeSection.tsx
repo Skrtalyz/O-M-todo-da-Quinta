@@ -10,7 +10,7 @@ interface GuaranteeSectionProps {
 export const GuaranteeSection: React.FC<GuaranteeSectionProps> = ({ onOpenCheckout }) => {
   const checkoutUrls = useCheckoutUrls();
   return (
-    <section className="py-16 sm:py-20 bg-[#F9F8F5] relative">
+    <section className="esconder-delay py-16 sm:py-20 bg-[#F9F8F5] relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/80 shadow-xl relative overflow-hidden">

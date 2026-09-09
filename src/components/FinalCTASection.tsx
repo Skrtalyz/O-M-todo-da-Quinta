@@ -9,7 +9,7 @@ interface FinalCTASectionProps {
 export const FinalCTASection: React.FC<FinalCTASectionProps> = ({ onOpenCheckout }) => {
   const checkoutUrls = useCheckoutUrls();
   return (
-    <section className="py-16 sm:py-20 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
+    <section className="esconder-delay py-16 sm:py-20 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800 text-emerald-400 border border-slate-700 text-xs font-bold uppercase tracking-wider mb-6">

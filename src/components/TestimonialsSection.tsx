@@ -126,7 +126,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
   };
 
   return (
-    <section id="depoimentos" className="py-16 sm:py-20 bg-[#F9F8F5] border-t border-amber-900/10 relative">
+    <section id="depoimentos" className="esconder-delay py-16 sm:py-20 bg-[#F9F8F5] border-t border-amber-900/10 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

@@ -4,6 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>O Método da Quinta - Conservas de Elite</title>
+
+    <!-- Global Error Suppression & Protection for External CDN / Tracking Scripts -->
+    <script>
+      (function() {
+        window.addEventListener('error', function(e) {
+          if (e.message === 'Script error.' || !e.filename || (e.filename && !e.filename.includes(window.location.host))) {
+            e.preventDefault();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        var _prevOnError = window.onerror;
+        window.onerror = function(msg, url) {
+          if (msg === 'Script error.' || (url && !url.includes(window.location.host))) {
+            return true;
+          }
+          if (typeof _prevOnError === 'function') {
+            return _prevOnError.apply(this, arguments);
+          }
+          return false;
+        };
+
+        window.addEventListener('unhandledrejection', function(e) {
+          var r = e.reason;
+          if (r && (r.message === 'Script error.' || String(r).indexOf('converteai') !== -1 || String(r).indexOf('utmify') !== -1)) {
+            e.preventDefault();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+
+    <!-- VTurb Pre-load Links -->
+    <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+    <link rel="preload" href="https://scripts.converteai.net/25646338-ef2d-49f2-9d57-14bcc4cafb0c/players/6aa0c32a7933d7b9d153d93e/v4/player.js" as="script">
+    <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+    <link rel="preload" href="https://cdn.converteai.net/25646338-ef2d-49f2-9d57-14bcc4cafb0c/6aa0c2fbb3f7d035bc964ba6/main.m3u8" as="fetch" crossorigin="anonymous">
+    <link rel="dns-prefetch" href="https://cdn.converteai.net">
+    <link rel="dns-prefetch" href="https://scripts.converteai.net">
+    <link rel="dns-prefetch" href="https://images.converteai.net">
+    <link rel="dns-prefetch" href="https://license.vturb.com">
+
+    <style id="initial-delay-style">
+      .esconder-delay {
+        display: none !important;
+      }
+      html.delay-liberado .esconder-delay,
+      body.delay-liberado .esconder-delay,
+      .delay-liberado .esconder-delay {
+        display: block !important;
+      }
+    </style>
+
     <script>
       (function() {
         // 1. Safe JSON.parse protection (prevents "undefined is not valid JSON" crashes from any third-party or tracking scripts)
@@ -101,6 +156,163 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Script de Delay VSL (180 segundos / 3 minutos) com persistência em localStorage -->
+    <script type="text/javascript">
+      (function() {
+        var SECONDS_TO_DISPLAY = 180;
+        var STORAGE_KEY = 'esconder_delay_liberado';
+        var ALREADY_DISPLAYED_KEY = 'alreadyElsDisplayed' + SECONDS_TO_DISPLAY;
+
+        var isAlreadyLiberado = false;
+        try {
+          isAlreadyLiberado = localStorage.getItem(STORAGE_KEY) === 'true' || 
+                              localStorage.getItem(ALREADY_DISPLAYED_KEY) === 'true' ||
+                              localStorage.getItem('vsl_delay_liberado') === 'true';
+        } catch (e) {}
+
+        var liberadoExecutado = false;
+        function liberarConteudo() {
+          if (liberadoExecutado) return;
+          liberadoExecutado = true;
+
+          // 1. Persistir no localStorage
+          try {
+            localStorage.setItem(STORAGE_KEY, 'true');
+            localStorage.setItem(ALREADY_DISPLAYED_KEY, 'true');
+            localStorage.setItem('vsl_delay_liberado', 'true');
+          } catch (e) {}
+
+          // 2. Adicionar classe delay-liberado em <html> e <body>
+          if (document.documentElement) {
+            document.documentElement.classList.add('delay-liberado');
+          }
+          if (document.body) {
+            document.body.classList.add('delay-liberado');
+          }
+
+          // 3. Atualizar o style inicial
+          var initialStyle = document.getElementById('initial-delay-style');
+          if (initialStyle) {
+            initialStyle.innerHTML = '.esconder-delay { display: block !important; }';
+          }
+
+          // 4. Injetar style com máxima especificidade para garantir exibição
+          var override = document.getElementById('delay-style-override');
+          if (!override) {
+            override = document.createElement('style');
+            override.id = 'delay-style-override';
+            document.head.appendChild(override);
+          }
+          override.innerHTML = [
+            '.esconder-delay,',
+            'body .esconder-delay,',
+            'html body .esconder-delay,',
+            'div.esconder-delay,',
+            'section.esconder-delay {',
+            '  display: block !important;',
+            '}',
+            'button.esconder-delay {',
+            '  display: flex !important;',
+            '}'
+          ].join('\n');
+
+          // 5. Atualizar inline styles nos elementos presentes
+          var els = document.querySelectorAll('.esconder-delay');
+          for (var i = 0; i < els.length; i++) {
+            var el = els[i];
+            if (el.tagName && el.tagName.toLowerCase() === 'button') {
+              el.style.setProperty('display', 'flex', 'important');
+            } else {
+              el.style.setProperty('display', 'block', 'important');
+            }
+          }
+
+          // 6. Notificar componentes React
+          window.dispatchEvent(new CustomEvent('vslDelayLiberado'));
+        }
+
+        // Se já foi liberado em sessão anterior, liberta imediatamente
+        if (isAlreadyLiberado) {
+          if (document.documentElement) {
+            document.documentElement.classList.add('delay-liberado');
+          }
+          liberarConteudo();
+        } else {
+          // Temporizador garantido de 180 segundos (3 minutos)
+          setTimeout(function() {
+            liberarConteudo();
+          }, SECONDS_TO_DISPLAY * 1000);
+
+          // Monitorização do player VTurb (timeupdate e checagem periódica)
+          var checkAttempts = 0;
+          function setupVTurbProgress() {
+            if (liberadoExecutado) return;
+
+            // 1. Checagem via API smartplayer
+            if (typeof smartplayer !== 'undefined' && smartplayer.instances && smartplayer.instances.length) {
+              try {
+                var p = smartplayer.instances[0];
+                p.on('timeupdate', function(currentTime) {
+                  if (liberadoExecutado) return;
+                  var t = typeof currentTime === 'number' ? currentTime : (p.video ? p.video.currentTime : 0);
+                  if (t >= SECONDS_TO_DISPLAY) {
+                    liberarConteudo();
+                  }
+                });
+              } catch (e) {}
+            }
+
+            // 2. Checagem via elemento web-component <vturb-smartplayer>
+            var vPlayer = document.getElementById('vid-6aa0c32a7933d7b9d153d93e');
+            if (vPlayer) {
+              try {
+                vPlayer.addEventListener('timeupdate', function(e) {
+                  if (liberadoExecutado) return;
+                  var t = e && e.detail && typeof e.detail.time === 'number' ? e.detail.time : 0;
+                  if (t >= SECONDS_TO_DISPLAY) {
+                    liberarConteudo();
+                  }
+                });
+              } catch (e) {}
+            }
+
+            if (!liberadoExecutado && checkAttempts < 60) {
+              checkAttempts++;
+              setTimeout(setupVTurbProgress, 1000);
+            }
+          }
+          setupVTurbProgress();
+
+          // Checagem ativa por intervalo (garante disparo se o vídeo passar dos 180s)
+          var vturbInterval = setInterval(function() {
+            if (liberadoExecutado) {
+              clearInterval(vturbInterval);
+              return;
+            }
+            try {
+              if (typeof smartplayer !== 'undefined' && smartplayer.instances && smartplayer.instances.length) {
+                var p = smartplayer.instances[0];
+                var cur = p.video && typeof p.video.currentTime === 'number' ? p.video.currentTime : 0;
+                if (cur >= SECONDS_TO_DISPLAY) {
+                  liberarConteudo();
+                  clearInterval(vturbInterval);
+                }
+              }
+            } catch (e) {}
+          }, 500);
+        }
+
+        // Caso o DOM ainda não estivesse pronto
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            if (isAlreadyLiberado || liberadoExecutado) {
+              liberarConteudo();
+            }
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
 

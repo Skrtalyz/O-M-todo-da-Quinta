@@ -32,7 +32,7 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-[#F3F0E6] border-t border-amber-900/10">
+    <section id="faq" className="esconder-delay py-16 sm:py-20 bg-[#F3F0E6] border-t border-amber-900/10">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-12">
