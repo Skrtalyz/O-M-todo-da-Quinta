@@ -57,15 +57,4 @@ h1, h2, h3, h4, .font-serif-luxury, .font-heading {
   100% { background-position: 200% 0; }
 }
 
-/* Sistema de Delay VSL (VTurb) */
-.esconder-delay {
-  display: none !important;
-}
-
-html.delay-liberado .esconder-delay,
-body.delay-liberado .esconder-delay,
-.delay-liberado .esconder-delay {
-  display: block !important;
-}
-
 

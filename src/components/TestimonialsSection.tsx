@@ -126,74 +126,68 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
   };
 
   return (
-    <section id="depoimentos" className="esconder-delay py-16 sm:py-20 bg-[#F9F8F5] border-t border-amber-900/10 relative">
+    <section id="depoimentos" className="py-10 sm:py-16 lg:py-20 bg-[#F9F8F5] border-t border-amber-900/10 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C25E00]/10 border border-[#C25E00]/20 text-xs font-bold uppercase tracking-wider text-[#C25E00] mb-4">
-            <Award className="w-3.5 h-3.5 text-[#C25E00]" />
-            <span>Resultados e Histórias de Sucesso</span>
-          </div>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-[#2D2D2D] tracking-tight">
-            Vozes reais de alunas e criadoras que já transformaram a sua rotina
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#2D2D2D] tracking-tight leading-snug">
+            Vozes reais de alunas e criadoras que{' '}
+            <span className="text-[#28A745]">já transformaram a sua rotina</span>
           </h2>
-          <p className="text-sm sm:text-base text-[#575757] font-medium mt-3">
-            Mensagens autênticas enviadas diretamente pelas alunas do Método da Quinta em Portugal.
-          </p>
         </div>
 
         {/* Testimonials Carousel Container */}
         <div 
-          className="relative max-w-5xl mx-auto mb-12"
+          className="relative max-w-4xl mx-auto mb-8 sm:mb-12 px-2 sm:px-0"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
           {/* Carousel Viewport */}
-          <div className="overflow-hidden py-4 px-1">
+          <div className="overflow-hidden py-2 sm:py-4">
             <div 
               className="flex transition-transform duration-500 ease-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {TESTIMONIALS.map((item) => (
-                <div key={item.id} className="w-full shrink-0 px-2 sm:px-4">
-                  <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#E0DBD0] shadow-md relative hover:shadow-lg transition-all duration-300 max-w-2xl mx-auto">
+                <div key={item.id} className="w-full shrink-0 px-1 sm:px-3">
+                  <div className="bg-white rounded-2xl p-4 sm:p-7 border border-[#E0DBD0] shadow-sm relative hover:shadow-md transition-all duration-300 max-w-xl mx-auto">
                     
                     {/* Top Header */}
-                    <div className="flex items-center justify-between border-b border-[#F0ECE1] pb-4 mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-full bg-[#1C1D1F] text-[#C5A059] flex items-center justify-center font-serif-luxury font-bold text-lg border border-[#C5A059]/30">
+                    <div className="flex items-center justify-between border-b border-[#F0ECE1] pb-3 mb-3 sm:pb-4 sm:mb-4">
+                      <div className="flex items-center gap-2.5 sm:gap-3">
+                        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#1C1D1F] text-[#C5A059] flex items-center justify-center font-serif-luxury font-bold text-sm sm:text-base border border-[#C5A059]/30 shrink-0">
                           {item.initials}
                         </div>
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="font-bold text-[#1C1D1F] text-sm">{item.name}</span>
-                            <CheckCircle className="w-4 h-4 text-[#28a745]" />
+                            <span className="font-bold text-[#1C1D1F] text-xs sm:text-sm">{item.name}</span>
+                            <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#28a745]" />
                           </div>
-                          <span className="text-xs text-[#57585C]">{item.location} • {item.tag}</span>
+                          <span className="text-[10px] sm:text-xs text-[#57585C] block">{item.location} • {item.tag}</span>
                         </div>
                       </div>
                       <div className="flex text-amber-400 gap-0.5">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                          <Star key={i} className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-amber-400" />
                         ))}
                       </div>
                     </div>
 
                     {/* Native Quote */}
-                    <blockquote className="text-base text-[#1C1D1F] font-medium leading-relaxed mb-6 italic bg-[#F9F8F5] p-5 rounded-xl border border-[#EBE7DD]">
+                    <blockquote className="text-xs sm:text-sm text-[#1C1D1F] font-medium leading-relaxed mb-4 sm:mb-5 italic bg-[#F9F8F5] p-3.5 sm:p-4 rounded-xl border border-[#EBE7DD]">
                       {item.quote}
                     </blockquote>
 
                     {/* Verification Footer Badge */}
-                    <div className="flex items-center justify-between text-xs text-[#57585C] pt-2 border-t border-[#F0ECE1]">
-                      <span className="flex items-center gap-1.5 text-[#28a745] font-medium">
+                    <div className="flex items-center justify-between text-[10px] sm:text-xs text-[#57585C] pt-2 border-t border-[#F0ECE1]">
+                      <span className="flex items-center gap-1 text-[#28a745] font-medium">
                         {item.proofType === 'MB Way' ? (
-                          <Smartphone className="w-3.5 h-3.5" />
+                          <Smartphone className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         ) : (
-                          <CheckCircle className="w-3.5 h-3.5" />
+                          <CheckCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         )}
                         {item.proofText}
                       </span>
@@ -210,28 +204,28 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
           <button
             onClick={handlePrev}
             aria-label="Depoimento Anterior"
-            className="absolute left-0 sm:-left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-[#1C1D1F] border border-[#E0DBD0] shadow-md flex items-center justify-center hover:bg-[#1C1D1F] hover:text-white transition-colors z-10 cursor-pointer"
+            className="absolute -left-1 sm:-left-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white text-[#1C1D1F] border border-[#E0DBD0] shadow-md flex items-center justify-center hover:bg-[#1C1D1F] hover:text-white transition-colors z-10 cursor-pointer"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           <button
             onClick={handleNext}
             aria-label="Depoimento Seguinte"
-            className="absolute right-0 sm:-right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-[#1C1D1F] border border-[#E0DBD0] shadow-md flex items-center justify-center hover:bg-[#1C1D1F] hover:text-white transition-colors z-10 cursor-pointer"
+            className="absolute -right-1 sm:-right-5 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white text-[#1C1D1F] border border-[#E0DBD0] shadow-md flex items-center justify-center hover:bg-[#1C1D1F] hover:text-white transition-colors z-10 cursor-pointer"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           {/* Carousel Pagination Dot Indicators */}
-          <div className="flex justify-center items-center gap-2 mt-6">
+          <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-6">
             {TESTIMONIALS.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 aria-label={`Ir para depoimento ${idx + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentIndex === idx ? 'w-8 bg-[#1C1D1F]' : 'w-2.5 bg-[#C5A059]/40 hover:bg-[#C5A059]'
+                className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  currentIndex === idx ? 'w-6 sm:w-8 bg-[#1C1D1F]' : 'w-2 sm:w-2.5 bg-[#C5A059]/40 hover:bg-[#C5A059]'
                 }`}
               />
             ))}
@@ -239,32 +233,14 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
 
         </div>
 
-        {/* Social Proof Stats Bar */}
-        <div className="bg-white rounded-2xl p-6 border border-[#E2DDD2] shadow-sm max-w-4xl mx-auto flex flex-wrap items-center justify-around gap-6 text-center">
-          <div>
-            <span className="block text-2xl font-serif-luxury font-bold text-[#1C1D1F]">4.9 / 5.0</span>
-            <span className="text-xs text-[#57585C]">Avaliação das Alunas</span>
-          </div>
-          <div className="w-px h-8 bg-[#E6E2D8] hidden sm:block"></div>
-          <div>
-            <span className="block text-2xl font-serif-luxury font-bold text-[#28a745]">100% MB Way</span>
-            <span className="text-xs text-[#57585C]">Notificação Direta</span>
-          </div>
-          <div className="w-px h-8 bg-[#E6E2D8] hidden sm:block"></div>
-          <div>
-            <span className="block text-2xl font-serif-luxury font-bold text-[#C5A059]">0% Bolor</span>
-            <span className="text-xs text-[#57585C]">Protocolo Científico</span>
-          </div>
-        </div>
-
         {/* Section End CTA */}
-        <div className="mt-12 text-center">
+        <div className="text-center">
           <button
             onClick={onScrollToOffer}
-            className="w-full sm:w-auto min-w-[320px] bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-base sm:text-lg tracking-wide py-4 sm:py-5 px-8 sm:px-10 rounded-2xl shadow-xl shadow-[#28A745]/20 hover:shadow-2xl hover:shadow-[#28A745]/30 transition-all duration-200 inline-flex items-center justify-center gap-3 cursor-pointer border border-emerald-500/30 active:scale-95"
+            className="w-full sm:w-auto min-w-0 sm:min-w-[300px] bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-sm sm:text-base tracking-wide py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl shadow-lg shadow-[#28A745]/20 hover:shadow-xl hover:shadow-[#28A745]/30 transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer border border-emerald-500/30 active:scale-95"
           >
             <span>Quero ser a referência da minha freguesia</span>
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 

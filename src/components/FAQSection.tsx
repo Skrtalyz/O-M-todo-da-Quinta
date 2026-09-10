@@ -32,44 +32,44 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="esconder-delay py-16 sm:py-20 bg-[#F3F0E6] border-t border-amber-900/10">
+    <section id="faq" className="py-10 sm:py-16 lg:py-20 bg-[#F3F0E6] border-t border-amber-900/10">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#2D2D2D] mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white border border-slate-200 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#2D2D2D] mb-3">
             <HelpCircle className="w-3.5 h-3.5 text-[#28A745]" />
             <span>Perguntas Frequentes</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#2D2D2D] tracking-tight">
+          <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#2D2D2D] tracking-tight leading-snug">
             Esclarece todas as tuas dúvidas sobre o Método da Quinta
           </h2>
         </div>
 
-        <div className="space-y-3.5">
+        <div className="space-y-3">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
                 key={idx}
-                className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden transition-all duration-200 shadow-sm"
+                className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 overflow-hidden transition-all duration-200 shadow-xs"
               >
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-3.5 cursor-pointer hover:bg-slate-50 transition-colors"
                 >
-                  <span className="text-base sm:text-lg font-bold text-[#2D2D2D]">
+                  <span className="text-sm sm:text-base font-bold text-[#2D2D2D]">
                     {faq.q}
                   </span>
                   {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-[#28A745] shrink-0" />
+                    <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-[#28A745] shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />
+                    <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 shrink-0" />
                   )}
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-6 sm:px-6 text-xs sm:text-sm text-[#575757] leading-relaxed border-t border-slate-100 pt-4 font-medium">
+                  <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-[#575757] leading-relaxed border-t border-slate-100 pt-3 sm:pt-4 font-medium">
                     {faq.a}
                   </div>
                 )}

@@ -84,6 +84,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCheckout }) => {
             </button>
           </nav>
 
+          {/* Desktop CTA Button */}
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={() => scrollToSection('oferta')}
+              className="bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-xl shadow transition-all duration-200 flex items-center gap-2 cursor-pointer border border-emerald-500/20 active:scale-95"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span>Garantir Acesso</span>
+            </button>
+          </div>
+
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
