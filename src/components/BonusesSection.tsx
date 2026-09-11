@@ -1,6 +1,5 @@
 import React from 'react';
-import { IMAGES } from '../assets/images';
-import { Gift, Sparkles, Check, MessageCircle, RefreshCw, ArrowRight } from 'lucide-react';
+import { Sparkles, Check, MessageCircle, RefreshCw, ArrowRight } from 'lucide-react';
 
 interface BonusesSectionProps {
   onOpenCheckout: (planId?: 'basic' | 'complete') => void;
@@ -46,8 +45,8 @@ export const BonusesSection: React.FC<BonusesSectionProps> = ({ onOpenCheckout, 
               {/* Inset Visual Card */}
               <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 mb-4 sm:mb-5">
                 <img
-                  src={IMAGES.satinJar}
-                  alt="Frasco de Luxo com Fita de Cetim"
+                  src="https://i.imgur.com/qqJWJGo.jpeg"
+                  alt="Guia Estética de Elite - Frasco de Luxo com Fita de Cetim"
                   referrerPolicy="no-referrer"
                   className="w-full h-36 sm:h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -92,7 +91,7 @@ export const BonusesSection: React.FC<BonusesSectionProps> = ({ onOpenCheckout, 
 
               <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 mb-4 sm:mb-5">
                 <img
-                  src="https://i.postimg.cc/dtQ2M7QB/1eeeadeb-a624-4e70-b3ab-86ff58d6db1c.png"
+                  src="https://i.imgur.com/aQFyrIp.png"
                   alt="O Segredo do Zero Desperdício - Conservas de Talos e Cascas"
                   referrerPolicy="no-referrer"
                   className="w-full h-36 sm:h-44 object-cover hover:scale-105 transition-transform duration-300"

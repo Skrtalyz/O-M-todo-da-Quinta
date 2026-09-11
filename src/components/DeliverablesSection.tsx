@@ -42,7 +42,7 @@ export const DeliverablesSection: React.FC<DeliverablesSectionProps> = ({ onOpen
 
               <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 mb-4 sm:mb-5">
                 <img
-                  src="https://i.postimg.cc/g2Vmv08F/image.png"
+                  src="https://i.imgur.com/S09AN2k.png"
                   alt="O Manual Digital Mestre - Conservas de Elite"
                   referrerPolicy="no-referrer"
                   className="w-full h-36 sm:h-44 object-cover hover:scale-105 transition-transform duration-300"
@@ -87,7 +87,7 @@ export const DeliverablesSection: React.FC<DeliverablesSectionProps> = ({ onOpen
 
               <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 mb-4 sm:mb-5">
                 <img
-                  src="https://i.postimg.cc/CKZ1b0hc/0f33a719-b713-4c47-8dcd-b540a1a5acec.png"
+                  src="https://i.imgur.com/NVu8oTr.png"
                   alt="Protocolo Antifalhas de Esterilização"
                   referrerPolicy="no-referrer"
                   className="w-full h-36 sm:h-44 object-cover hover:scale-105 transition-transform duration-300"
@@ -132,7 +132,7 @@ export const DeliverablesSection: React.FC<DeliverablesSectionProps> = ({ onOpen
 
               <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 mb-4 sm:mb-5">
                 <img
-                  src="https://i.postimg.cc/nzKVb1Td/83fbb4a7-b6b1-48ed-83f8-9cc2b1cc26fd.png"
+                  src="https://i.imgur.com/Eh4yFYc.png"
                   alt="Guia Prático de Execução - Conservas de Elite"
                   referrerPolicy="no-referrer"
                   className="w-full h-36 sm:h-44 object-cover hover:scale-105 transition-transform duration-300"
