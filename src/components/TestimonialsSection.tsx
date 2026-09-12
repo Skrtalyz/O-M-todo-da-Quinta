@@ -19,8 +19,10 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
   const [isEnded, setIsEnded] = useState(false);
   const [hasUserUnmuted, setHasUserUnmuted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [showMobileControls, setShowMobileControls] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const mobileTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Iniciar automaticamente o vídeo sem áudio
   useEffect(() => {
@@ -30,7 +32,24 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
         setIsPlaying(false);
       });
     }
+
+    return () => {
+      if (mobileTimerRef.current) {
+        clearTimeout(mobileTimerRef.current);
+      }
+    };
   }, []);
+
+  // Mostra os controlos no telemóvel temporariamente e esconde após 'duration' ms
+  const showControlsTemporarily = (duration = 3500) => {
+    setShowMobileControls(true);
+    if (mobileTimerRef.current) {
+      clearTimeout(mobileTimerRef.current);
+    }
+    mobileTimerRef.current = setTimeout(() => {
+      setShowMobileControls(false);
+    }, duration);
+  };
 
   // Quando o utilizador clica para ouvir com som: desmuta, volta ao início e toca com áudio
   const handleUnmuteAndRestart = () => {
@@ -41,23 +60,39 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
     setHasUserUnmuted(true);
     setIsPlaying(true);
     setIsEnded(false);
+    // No telemóvel, esconde os controlos para que o vídeo rode limpo
+    setShowMobileControls(false);
+    if (mobileTimerRef.current) {
+      clearTimeout(mobileTimerRef.current);
+    }
   };
 
   // Alternar play / pause após o áudio ter sido ativado
-  const handleTogglePlay = () => {
+  const handleTogglePlay = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     if (!videoRef.current) return;
+
     if (!hasUserUnmuted) {
       handleUnmuteAndRestart();
       return;
     }
+
     if (isEnded) {
       handleRestart();
       return;
     }
+
     if (videoRef.current.paused) {
       videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+      showControlsTemporarily(2500);
     } else {
       videoRef.current.pause();
+      setIsPlaying(false);
+      setShowMobileControls(true); // Fica visível com botão de play se pausado
+      if (mobileTimerRef.current) {
+        clearTimeout(mobileTimerRef.current);
+      }
     }
   };
 
@@ -68,6 +103,33 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
     videoRef.current.play().catch(() => {});
     setIsEnded(false);
     setIsPlaying(true);
+    setShowMobileControls(false);
+    if (mobileTimerRef.current) {
+      clearTimeout(mobileTimerRef.current);
+    }
+  };
+
+  // Clique geral na tela do player
+  const handleScreenClick = () => {
+    // Se o áudio ainda não foi ativado, qualquer clique ativa o áudio e reinicia imediatamente do começo
+    if (!hasUserUnmuted) {
+      handleUnmuteAndRestart();
+      return;
+    }
+
+    if (isEnded) {
+      handleRestart();
+      return;
+    }
+
+    // Após ativar o áudio: se no telemóvel o botão de play/pause estiver oculto, o toque faz ele aparecer
+    if (!showMobileControls) {
+      showControlsTemporarily(3500);
+      return;
+    }
+
+    // Se já está visível: alterna reprodução
+    handleTogglePlay();
   };
 
   return (
@@ -82,12 +144,21 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
           </h2>
         </div>
 
-        {/* Video Player com Autoplay Mudo, Aviso Central para Ativar Áudio e Voltar ao Início */}
+        {/* Video Player com Autoplay Mudo, Ocultação Inteligente no Telemóvel e Ativação ao Clicar */}
         <div className="flex justify-center mb-10 sm:mb-14">
           <div
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-[#E0DBD0] bg-black group max-w-full"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onClick={handleScreenClick}
+            onMouseEnter={() => {
+              setIsHovered(true);
+              setShowMobileControls(true);
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+              if (isPlaying) {
+                setShowMobileControls(false);
+              }
+            }}
+            className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-[#E0DBD0] bg-black group max-w-full cursor-pointer select-none"
           >
             <video
               ref={videoRef}
@@ -95,7 +166,6 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
               muted
               playsInline
               preload="metadata"
-              onClick={handleTogglePlay}
               onPlay={() => {
                 setIsPlaying(true);
                 setIsEnded(false);
@@ -104,25 +174,25 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
               onEnded={() => {
                 setIsPlaying(false);
                 setIsEnded(true);
+                setShowMobileControls(true);
               }}
-              className="block max-w-full max-h-[75vh] w-auto h-auto object-contain cursor-pointer"
+              className="block max-w-full max-h-[75vh] w-auto h-auto object-contain pointer-events-none sm:pointer-events-auto"
               src={VIDEO_URL}
             >
               O teu navegador não suporta a reprodução deste vídeo.
             </video>
 
-            {/* Aviso no meio do vídeo: Clique para escutar com áudio (reinicia do começo) */}
+            {/* Aviso no meio do vídeo: Clique para escutar com áudio (permanece SEMPRE visível no telemóvel e desktop até ser clicado) */}
             {!hasUserUnmuted && !isEnded && (
               <div
-                onClick={handleUnmuteAndRestart}
-                className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer p-4 transition-all duration-300 group/unmute select-none z-10"
+                className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 transition-all duration-300 z-10 opacity-100 pointer-events-auto"
               >
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     handleUnmuteAndRestart();
                   }}
-                  className="bg-[#28A745] hover:bg-[#1f8035] text-white px-5 py-4 sm:px-7 sm:py-5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-3 sm:gap-4 transition-all duration-300 group-hover/unmute:scale-105 active:scale-95 border-2 border-emerald-300/40 text-center max-w-sm sm:max-w-md animate-pulse cursor-pointer"
+                  className="bg-[#28A745] hover:bg-[#1f8035] text-white px-5 py-4 sm:px-7 sm:py-5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-emerald-300/40 text-center max-w-sm sm:max-w-md animate-pulse cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <Volume2 className="w-6 h-6 text-white" />
@@ -142,8 +212,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
             {/* Estado 1: Quando o vídeo acaba -> Opção "Ver novamente" */}
             {isEnded ? (
               <div
-                onClick={handleRestart}
-                className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center cursor-pointer p-4 transition-opacity duration-300 z-10"
+                className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center p-4 transition-opacity duration-300 z-10"
               >
                 <button
                   onClick={(e) => {
@@ -159,14 +228,14 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
             ) : hasUserUnmuted && !isPlaying ? (
               /* Estado 2: Quando pausado pelo utilizador -> Botão Play */
               <div
-                onClick={handleTogglePlay}
-                className="absolute inset-0 bg-black/30 hover:bg-black/40 flex items-center justify-center cursor-pointer transition-colors z-10"
+                className={`absolute inset-0 bg-black/30 hover:bg-black/40 flex items-center justify-center transition-opacity duration-300 z-10 ${
+                  showMobileControls
+                    ? 'opacity-100 pointer-events-auto'
+                    : 'opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto'
+                }`}
               >
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleTogglePlay();
-                  }}
+                  onClick={handleTogglePlay}
                   aria-label="Dar Play"
                   className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#28A745] hover:bg-[#1f8035] text-white flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95 cursor-pointer pl-1"
                 >
@@ -174,17 +243,24 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
                 </button>
               </div>
             ) : (
-              /* Estado 3: A reproduzir com áudio -> Overlay sutil com botão de Pause no hover / toque */
+              /* Estado 3: A reproduzir com áudio -> Overlay sutil com botão de Pause que aparece ao tocar na tela */
               hasUserUnmuted && (
                 <div
-                  onClick={handleTogglePlay}
-                  className={`absolute inset-0 bg-black/20 flex items-center justify-center cursor-pointer transition-opacity duration-200 z-10 ${
-                    isHovered ? 'opacity-100' : 'opacity-0'
+                  className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-200 z-10 ${
+                    showMobileControls
+                      ? 'opacity-100 pointer-events-auto'
+                      : 'opacity-0 pointer-events-none'
+                  } ${
+                    isHovered ? 'sm:opacity-100 sm:pointer-events-auto' : 'sm:opacity-0 sm:pointer-events-none'
                   }`}
                 >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-black/60 backdrop-blur-xs text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95">
+                  <button
+                    onClick={handleTogglePlay}
+                    aria-label="Pausar"
+                    className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-black/60 backdrop-blur-xs text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+                  >
                     <Pause className="w-7 h-7 sm:w-8 sm:h-8 fill-white" />
-                  </div>
+                  </button>
                 </div>
               )
             )}
