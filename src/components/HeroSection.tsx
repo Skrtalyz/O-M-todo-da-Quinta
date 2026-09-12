@@ -1,11 +1,12 @@
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
 
 interface HeroSectionProps {
   onOpenCheckout: (planId?: 'basic' | 'complete') => void;
   onScrollToOffer: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = () => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToOffer }) => {
   return (
     <section className="relative pt-6 pb-10 sm:pt-10 sm:pb-16 overflow-hidden bg-[#F9F8F5]">
       {/* Background subtle radial glow */}
@@ -44,6 +45,17 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
               loading="eager"
             />
           </div>
+        </div>
+
+        {/* Botão de Ação CTA Abaixo da Imagem */}
+        <div className="mt-6 sm:mt-8 text-center">
+          <button
+            onClick={onScrollToOffer}
+            className="w-full sm:w-auto min-w-0 sm:min-w-[300px] bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-sm sm:text-base tracking-wide py-3.5 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl shadow-lg shadow-[#28A745]/20 hover:shadow-xl hover:shadow-[#28A745]/30 transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer border border-emerald-500/30 active:scale-95"
+          >
+            <span>Quero dominar o Método da Quinta</span>
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
         </div>
 
       </div>
