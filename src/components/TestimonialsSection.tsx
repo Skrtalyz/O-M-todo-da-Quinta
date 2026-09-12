@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { ArrowRight, ZoomIn, X, Play, Pause, RotateCcw } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowRight, ZoomIn, X, Play, Pause, RotateCcw, Volume2 } from 'lucide-react';
 
 interface TestimonialsSectionProps {
   onScrollToOffer?: () => void;
@@ -15,14 +15,41 @@ const PROOF_IMAGES = [
 
 export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScrollToOffer }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isEnded, setIsEnded] = useState(false);
+  const [hasUserUnmuted, setHasUserUnmuted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  // Iniciar automaticamente o vídeo sem áudio
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {
+        setIsPlaying(false);
+      });
+    }
+  }, []);
+
+  // Quando o utilizador clica para ouvir com som: desmuta, volta ao início e toca com áudio
+  const handleUnmuteAndRestart = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = false;
+    videoRef.current.currentTime = 0;
+    videoRef.current.play().catch(() => {});
+    setHasUserUnmuted(true);
+    setIsPlaying(true);
+    setIsEnded(false);
+  };
+
+  // Alternar play / pause após o áudio ter sido ativado
   const handleTogglePlay = () => {
     if (!videoRef.current) return;
+    if (!hasUserUnmuted) {
+      handleUnmuteAndRestart();
+      return;
+    }
     if (isEnded) {
       handleRestart();
       return;
@@ -36,6 +63,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
 
   const handleRestart = () => {
     if (!videoRef.current) return;
+    videoRef.current.muted = false;
     videoRef.current.currentTime = 0;
     videoRef.current.play().catch(() => {});
     setIsEnded(false);
@@ -54,7 +82,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
           </h2>
         </div>
 
-        {/* Video Player Customizado (Resolução Original, Apenas Play, Pause e Ver Novamente) */}
+        {/* Video Player com Autoplay Mudo, Aviso Central para Ativar Áudio e Voltar ao Início */}
         <div className="flex justify-center mb-10 sm:mb-14">
           <div
             className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-[#E0DBD0] bg-black group max-w-full"
@@ -63,6 +91,8 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
           >
             <video
               ref={videoRef}
+              autoPlay
+              muted
               playsInline
               preload="metadata"
               onClick={handleTogglePlay}
@@ -81,28 +111,56 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
               O teu navegador não suporta a reprodução deste vídeo.
             </video>
 
+            {/* Aviso no meio do vídeo: Clique para escutar com áudio (reinicia do começo) */}
+            {!hasUserUnmuted && !isEnded && (
+              <div
+                onClick={handleUnmuteAndRestart}
+                className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer p-4 transition-all duration-300 group/unmute select-none z-10"
+              >
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUnmuteAndRestart();
+                  }}
+                  className="bg-[#28A745] hover:bg-[#1f8035] text-white px-5 py-4 sm:px-7 sm:py-5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-3 sm:gap-4 transition-all duration-300 group-hover/unmute:scale-105 active:scale-95 border-2 border-emerald-300/40 text-center max-w-sm sm:max-w-md animate-pulse cursor-pointer"
+                >
+                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                    <Volume2 className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <p className="text-[11px] sm:text-xs uppercase tracking-wider font-extrabold text-emerald-100">
+                      O seu vídeo já começou
+                    </p>
+                    <p className="text-sm sm:text-base font-black text-white leading-tight">
+                      Clique para ouvir com áudio
+                    </p>
+                  </div>
+                </button>
+              </div>
+            )}
+
             {/* Estado 1: Quando o vídeo acaba -> Opção "Ver novamente" */}
             {isEnded ? (
               <div
                 onClick={handleRestart}
-                className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center cursor-pointer p-4 transition-opacity duration-300"
+                className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center cursor-pointer p-4 transition-opacity duration-300 z-10"
               >
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     handleRestart();
                   }}
-                  className="bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-sm sm:text-base py-3 px-6 sm:px-8 rounded-full shadow-xl flex items-center gap-2.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                  className="bg-[#28A745] hover:bg-[#1f8035] text-white font-bold text-sm sm:text-base py-3.5 px-7 sm:px-8 rounded-full shadow-xl flex items-center gap-2.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer border border-emerald-400/30"
                 >
                   <RotateCcw className="w-5 h-5" />
                   <span>Ver novamente</span>
                 </button>
               </div>
-            ) : !isPlaying ? (
-              /* Estado 2: Quando pausado / antes de iniciar -> Botão Play */
+            ) : hasUserUnmuted && !isPlaying ? (
+              /* Estado 2: Quando pausado pelo utilizador -> Botão Play */
               <div
                 onClick={handleTogglePlay}
-                className="absolute inset-0 bg-black/30 hover:bg-black/40 flex items-center justify-center cursor-pointer transition-colors"
+                className="absolute inset-0 bg-black/30 hover:bg-black/40 flex items-center justify-center cursor-pointer transition-colors z-10"
               >
                 <button
                   onClick={(e) => {
@@ -116,17 +174,19 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ onScro
                 </button>
               </div>
             ) : (
-              /* Estado 3: A reproduzir -> Overlay com botão de Pause no hover / toque */
-              <div
-                onClick={handleTogglePlay}
-                className={`absolute inset-0 bg-black/20 flex items-center justify-center cursor-pointer transition-opacity duration-200 ${
-                  isHovered ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-black/60 backdrop-blur-xs text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95">
-                  <Pause className="w-7 h-7 sm:w-8 sm:h-8 fill-white" />
+              /* Estado 3: A reproduzir com áudio -> Overlay sutil com botão de Pause no hover / toque */
+              hasUserUnmuted && (
+                <div
+                  onClick={handleTogglePlay}
+                  className={`absolute inset-0 bg-black/20 flex items-center justify-center cursor-pointer transition-opacity duration-200 z-10 ${
+                    isHovered ? 'opacity-100' : 'opacity-0'
+                  }`}
+                >
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-black/60 backdrop-blur-xs text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 active:scale-95">
+                    <Pause className="w-7 h-7 sm:w-8 sm:h-8 fill-white" />
+                  </div>
                 </div>
-              </div>
+              )
             )}
           </div>
         </div>
